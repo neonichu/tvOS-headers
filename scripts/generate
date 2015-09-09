@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+platform = '/Applications/Xcode-7.1.app/Contents/Developer/Platforms/AppleTVSimulator.platform'
+
+def framework_name(path)
+  path.split("/")[-1].split(".")[0]
+end
+
+folders = `find #{platform} -name '*.framework'`.split(' ')
+folders.each do |path|
+  name = framework_name(path)
+  dir_name = Dir::pwd + "/" + name
+
+  p name
+  p dir_name
+  p path
+  p "class-dump -H -o #{dir_name} #{path}/#{name}"
+
+  `/Users/boris/Downloads/class-dump-z/mac_x86/class-dump-z -H -o #{dir_name} #{path}/#{name}`
+end
